@@ -254,7 +254,7 @@
                             </div>
                             <div class="content">
                                 <div id="driveTemps" class="map">
-<iframe height="100%" width="100%" src="https://graphs.rtd3.me/dashboard-solo/db/hard-drive-temperatures?panelId=1"></iframe>
+<iframe height="100%" width="100%" src="https://graphs.rtd3.me/dashboard-solo/db/home-page-stats?panelId=1"></iframe>
                                 </div>
                                 <div class="footer">
                                     <hr>
@@ -364,8 +364,12 @@
     <!--  Notifications Plugin    -->
     <script src="assets/js/bootstrap-notify.js"></script>
 
+
+	<!--  Prometheus Plugin -->
+	<script src="assets/js/prometheus.js"></script>
+
     <!--  Google Maps Plugin    -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+    <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>-->
 
     <!-- Paper Dashboard Core javascript and methods for Demo purpose -->
 	<script src="assets/js/paper-dashboard.js"></script>
@@ -376,6 +380,7 @@
 	<script type="text/javascript">
     	$(document).ready(function(){
         	demo.initChartist();
+            prometheus.getFreeMemory();
     	});
 	</script>
 
