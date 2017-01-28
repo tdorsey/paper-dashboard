@@ -180,15 +180,15 @@
                                             </div>
                                         </div>
                                         <div class="col-xs-7">
-                                            <div id = "free_memory" class="numbers">
+                                            <div id="free_memory" class="numbers">
                                                 <p>Memory Free</p>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="footer">
                                         <hr />
-                                        <div id = "free_memory_updated" class="stats">
-                                            <i class="ti-reload"></i> 
+                                        <div id="free_memory_updated" class="stats">
+                                            <i class="ti-reload"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -275,7 +275,7 @@
                                     <p class="category">Last Campaign Performance</p>
                                 </div>
                                 <div class="content">
-                                    <div id="chartPreferences" class="ct-chart ct-perfect-fourth"></div>
+                                    <div id="driveStats" class="ct-chart ct-perfect-fourth"></div>
 
                                     <div class="footer">
                                         <div class="chart-legend">
@@ -377,14 +377,16 @@
 <script src="assets/js/paper-dashboard.js"></script>
 
 <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
-<script src="assets/js/demo.js"></script>
+<script src="assets/js/graphs.js"></script>
 
 <script type="text/javascript">
-        $(document).ready(function () {
-            demo.initChartist();
-
-            prometheus.getFreeMemory();
+    $(document).ready(function () {
+        prometheus.loadInfo().then(function () {
+            graphs.init().then(function () {
+                graphs.drawGraphs();
+            });
         });
-    </script>
+    });
+</script>
 
 </html>
