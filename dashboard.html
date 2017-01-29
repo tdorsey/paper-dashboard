@@ -384,7 +384,7 @@
     $(document).ready(function () {
         prometheus.loadInfo().then(function () {
             graphs.init().then(function () {
-                graphs.drawGraphs();
+                graphs.drawGraph("driveStats");
             });
         });
     });

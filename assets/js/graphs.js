@@ -8,7 +8,7 @@ var graphs = {
         return new Promise(function (resolve, reject) {
 
             var driveStats = {
-                labels: prometheus.getDriveNames(),
+                labels: prometheus.getShortDriveNames(),
                 series: [
                     prometheus.getReadErrors(),
                     prometheus.getWriteErrors(),
@@ -22,11 +22,13 @@ var graphs = {
         });
     },
 
-    drawGraphs: function () {
+    drawGraph: function (id) {
+
+        id = "#" + id;
         console.log(this.graphInfo);
 
-        new Chartist.Bar('#driveStats', graphs.graphInfo, {
-            seriesBarDistance: 10,
+        new Chartist.Bar(id, graphs.graphInfo, {
+            stackBars: true,
             reverseData: true,
             axisY: {
                 offset: 70

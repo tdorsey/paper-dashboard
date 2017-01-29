@@ -97,6 +97,7 @@ prometheus = {
 
         var drive = {
             device: null,
+            shortDevice: null,
             timestamp: null,
             readErrors: null,
             writeErrors: null,
@@ -112,7 +113,8 @@ prometheus = {
             drive.readErrors = info.metric.read_error_count;
             drive.writeErrors = info.metric.write_error_count;
             drive.checksumErrors = info.metric.checksum_error_count;
-            drive.device = prometheus.shortenDeviceName(info.metric.device);
+            drive.device = info.metric.device;
+            drive.shortDevice = prometheus.shortenDeviceName(info.metric.device);
             prometheus.drives.push(drive);
 
             drive = {};
@@ -122,12 +124,12 @@ prometheus = {
             return a.totalErrors - b.totalErrors;
         });
 
-    prometheus.drives = prometheus.getArrayMaximumValues(sortedDrives, numDrives);
+        prometheus.drives = prometheus.getArrayMaximumValues(sortedDrives, numDrives);
 
     },
 
     getArrayMaximumValues: function (array, numValues) {
-      
+
         array.reverse();
         return array.slice(0, numValues);
     },
@@ -172,6 +174,10 @@ prometheus = {
         return this.getMetric("device");
     },
 
+    getShortDriveNames: function () {
+        return this.getMetric("shortDevice");
+    },
+    
     parseZpoolData: function (response) {
         console.log(response);
         return response.data.result;
