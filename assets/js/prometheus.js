@@ -33,12 +33,12 @@ prometheus = {
                 {
 
                     data: {
-                        query: 'topk(5,zpool_error_count)'
+                        query: 'zpool_error_count'
                     },
                 }).then(
                 function success(response) {
                     prometheus.drive_info = prometheus.parseZpoolData(response);
-                    prometheus.getDriveMetrics(prometheus.drive_info);
+                    prometheus.getDriveMetrics(prometheus.drive_info, 5);
                     resolve();
 
                 },
@@ -93,7 +93,7 @@ prometheus = {
     },
 
 
-    getDriveMetrics: function (driveInfo) {
+    getDriveMetrics: function (driveInfo, numDrives) {
 
         var drive = {
             device: null,
@@ -107,16 +107,33 @@ prometheus = {
 
         driveInfo.forEach(function (info) {
 
-            drive = {};            
-
             drive.timestamp = info.value[0];
             drive.totalErrors = info.value[1];
             drive.readErrors = info.metric.read_error_count;
-            drive.writeErrors = info.metric.read_error_count;
-            drive.checksumErrors = info.metric.read_error_count;
-            drive.device = info.metric.device;
+            drive.writeErrors = info.metric.write_error_count;
+            drive.checksumErrors = info.metric.checksum_error_count;
+            drive.device = prometheus.shortenDeviceName(info.metric.device);
             prometheus.drives.push(drive);
+
+            drive = {};
         });
+
+        sortedDrives = prometheus.drives.sort(function (a, b) {
+            return a.totalErrors - b.totalErrors;
+        });
+
+    prometheus.drives = prometheus.getArrayMaximumValues(sortedDrives, numDrives);
+
+    },
+
+    getArrayMaximumValues: function (array, numValues) {
+      
+        array.reverse();
+        return array.slice(0, numValues);
+    },
+
+    shortenDeviceName: function (device) {
+        return device.slice(-5);
     },
 
     getMetric: function (metric) {
@@ -135,6 +152,10 @@ prometheus = {
             metrics.push(drive[metric]);
         });
         return metrics;
+    },
+
+    getTotalErrrors: function () {
+        return this.getMetric("totalErrors");
     },
 
     getReadErrors: function () {
