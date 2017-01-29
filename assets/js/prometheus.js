@@ -33,7 +33,7 @@ prometheus = {
                 {
 
                     data: {
-                        query: 'zpool_error_count'
+                        query: 'topk(5,zpool_error_count)'
                     },
                 }).then(
                 function success(response) {
@@ -106,6 +106,9 @@ prometheus = {
         };
 
         driveInfo.forEach(function (info) {
+
+            drive = {};            
+
             drive.timestamp = info.value[0];
             drive.totalErrors = info.value[1];
             drive.readErrors = info.metric.read_error_count;
