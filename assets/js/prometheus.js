@@ -103,7 +103,6 @@ prometheus = {
             writeErrors: null,
             checksumErrors: null,
             totalErrors: null
-
         };
 
         driveInfo.forEach(function (info) {
@@ -177,7 +176,7 @@ prometheus = {
     getShortDriveNames: function () {
         return this.getMetric("shortDevice");
     },
-    
+
     parseZpoolData: function (response) {
         console.log(response);
         return response.data.result;
